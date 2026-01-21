@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 #define _ ios_base::sync_with_stdio();
 #define pii pair<int, int>
 #define fs first
@@ -9,8 +9,10 @@ using namespace std;
 // algoritmo de Euclides para calculo do mdc
 // mmc(a, b) = a * (b / mdc(a, b))
 
-int mdc(int a, int b){
-	if(b == 0) return a;
+int mdc(int a, int b) {
+	if (b == 0) {
+		return a;
+	}
 	return mdc(b, a % b);
 }
 
@@ -32,21 +34,23 @@ int mdc(int a, int b){
 // da primeira equacao, subiremos na rescursao
 // a partir da equivalencia que encontramos anteriormente.
 
-pii extendedEuclidean(int a, int b){
-	if(b == 0) return pii(1, 0);
+pii extendedEuclidean(int a, int b) {
+	if (b == 0) {
+		return pii(1, 0);
+	}
 
 	ans = extendedEuclidean(b, a % b);
 
 	return pii(ans.sc, ans.fs - ((a / b) * ans.sc));
 }
 
-int main(){
-	while(scanf("%i %i", &a, &b) == 1){
+int main() {
+	while (scanf("%i %i", &a, &b) == 1) {
 		printf("mdc(%i, %i) == %i\n", a, b, mdc(a, b));
 		pii ans = extendedEuclidean(a, b);
-		if(mdc(a, b) == 1){
+		if (mdc(a, b) == 1) {
 			printf("inverso de 'a' na base 'b' : %i\n", (ans.fs + b) % b);
-			printf("produto de 'a' pelo inverso de 'a' na base 'b' : %i\n", (((ans.fs + b) % b) * x ) % b);
+			printf("produto de 'a' pelo inverso de 'a' na base 'b' : %i\n", (((ans.fs + b) % b) * x) % b);
 		}
 	}
 	return 0;

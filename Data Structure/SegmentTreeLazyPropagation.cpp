@@ -1,9 +1,6 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 #define _ ios_base::sync_with_stdio(0);
 #define vi vector<int>
-//#define left(x) (x << 1)
-//#define right(x) ((x << 1) + 1)
-//#define mid(a, b) ((a + b) >> 1)
 
 using namespace std;
 
@@ -25,7 +22,7 @@ int mid(int a, int b) {
 vi a, tree, lazy;
 
 void build(int u, int l, int r) {
-	if(l == r) {
+	if (l == r) {
 		tree[u] = a[l];
 		return;
 	}
@@ -36,8 +33,8 @@ void build(int u, int l, int r) {
 
 void push(int u, int l, int r) {
 	tree[u] += (r - l + 1) * lazy[u]; //RSQ
-//	tree[u] += lazy[u]  // RMQ
-	if(l != r) {
+	//	tree[u] += lazy[u]  // RMQ
+	if (l != r) {
 		lazy[left(u)] += lazy[u];
 		lazy[right(u)] += lazy[u];
 	}
@@ -46,12 +43,13 @@ void push(int u, int l, int r) {
 
 void update(int u, int i, int j, int l, int r, int value) {
 	push(u, i, j);
-	if(i > r || j < l) return;
-	if(l <= i && j <= r) {
+	if (i > r || j < l) {
+		return;
+	}
+	if (l <= i && j <= r) {
 		lazy[u] = value;
 		push(u, i, j);
-	}
-	else {
+	} else {
 		update(left(u), i, mid(i, j), l, r, value);
 		update(right(u), mid(i, j) + 1, j, l, r, value);
 		tree[u] = comp(tree[left(u)], tree[right(u)]);
@@ -60,14 +58,18 @@ void update(int u, int i, int j, int l, int r, int value) {
 
 int query(int u, int i, int j, int l, int r) {
 	push(u, i, j);
-	if(i > r || j < l) return neutral;
-	if(l <= i && j <= r) return tree[u];
+	if (i > r || j < l) {
+		return neutral;
+	}
+	if (l <= i && j <= r) {
+		return tree[u];
+	}
 
 	int lans = query(left(u), i, mid(i, j), l, r);
 	int rans = query(right(u), mid(i, j) + 1, j, l, r);
 	
 	return comp(lans, rans);
-}
+}}
 
 int q, size;
 
